@@ -12,6 +12,7 @@ var gamestate=PLAY;
 var deadtrex;
 var gameover,gameoverimg;
 var restart,restartimg;
+var jumpsound,diesound,sound100;
 
 
 function preload(){
@@ -27,6 +28,10 @@ function preload(){
   deadtrex=loadAnimation("trex_collided.png");
   restartimg=loadImage("restart.png");
   gameoverimg=loadImage("gameOver.png");
+  jumpsound=loadSound("jump.mp3");
+  diesound=loadSound("die.mp3");
+  sound100=loadSound("checkPoint.mp3");
+  
 }
 function setup() {
   createCanvas(600,300);
@@ -77,15 +82,20 @@ function draw() {
 
       if (keyDown("space")&&trex.y>242){
       trex.velocityY=-10;
+        jumpsound.play();
     }
     
     trex.velocityY=trex.velocityY+0.5;
     
     spawnobstacles();
     spawnclouds(); 
+    if (score%100===0){
+      sound100.play();
+    }
     
     if(trex.isTouching(obstaclegroup)){
         gamestate=END;
+      diesound.play();
        //trex.velocityY = -12 
         
       }
